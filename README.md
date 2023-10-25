@@ -1,6 +1,7 @@
 # primer_app_flutter
 
-A new Flutter project.
+Este es el codigo de  mi primera App apra Flutter.
+Author: Carlos Alejandro Rios Acosta
 
 ## Getting Started
 
