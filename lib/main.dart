@@ -50,38 +50,31 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context){
-    var appState = context.watch<MyAppState>();
-    var idea = appState.current;
-    IconData icon;
-    if (appState.favoritos.contains(idea)){
-      icon = Icons.favorite;
-    }else {
-      icon = Icons.favorite_outline;
-    }
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-          BigCard(idea: appState.current),
-          SizedBox(height: 20,),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ElevatedButton.icon(
-                onPressed: () {appState.toggleFavorito();}, 
-                icon: Icon(icon),
-                label: Text("Me gusta")),
-                SizedBox(width: 10,),
-              ElevatedButton(
-                onPressed: (){
-                  appState.getSiguiente();
-                }, 
-                child: Text("Siguiente"))
-          ],
+      body: Row(
+        children: [
+          SafeArea(
+            child: NavigationRail(
+              extended: false,
+              destinations: [
+                NavigationRailDestination(
+                  icon: Icon(Icons.home), 
+                  label: Text("Inicio")),
+                NavigationRailDestination(
+                  icon: Icon(Icons.favorite), 
+                  label: Text("favoritos"))
+              ],
+              selectedIndex: 0,
+              onDestinationSelected: (value){
+                print("Selección: $value");
+              },
+              )
           ),
+          Expanded(
+            child: Container(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              child: GeneratorPage(), )),
         ],
-        ),
       )
     );
   }
@@ -114,3 +107,41 @@ class BigCard extends StatelessWidget{
   }
 }
 
+class GeneratorPage extends StatelessWidget{
+  @override
+  Widget build(BuildContext context){
+    var appState = context.watch<MyAppState>();
+    var idea = appState.current;
+    IconData icon;
+    if (appState.favoritos.contains(idea)){
+      icon = Icons.favorite;
+    }else {
+      icon = Icons.favorite_outline;
+    }
+     
+    return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+          BigCard(idea: appState.current),
+          SizedBox(height: 20,),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () {appState.toggleFavorito();}, 
+                icon: Icon(icon),
+                label: Text("Me gusta")),
+                SizedBox(width: 10,),
+              ElevatedButton(
+                onPressed: (){
+                  appState.getSiguiente();
+                }, 
+                child: Text("Siguiente"))
+           ],
+          ),
+        ],
+      ),
+    );
+  }
+}
